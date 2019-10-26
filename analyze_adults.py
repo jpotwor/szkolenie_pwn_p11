@@ -18,6 +18,8 @@ from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
+x = pd.DataFrame(scaler.fit_transform(x))
+
 scale_cols = ['age', 'fnlwgt', 'education-num', 'capital-loss', 'hours-per-week']
 
 
@@ -27,9 +29,9 @@ print(len(x_train))
 print(len(x_train.columns))
 
 svc_params = {
-    'C': [0.1, 0.5, 1, 2]
+    'C': [0.01, 0.05, 0.1],
 }
-clf = GridSearchCV(LinearSVC(), svc_params, cv=2, verbose=3, n_jobs=-1)
+clf = GridSearchCV(LinearSVC(max_iter=10000), svc_params, cv=5, verbose=3, n_jobs=-1)
 
 clf.fit(x_train, y_train)
 print(clf.best_params_)
