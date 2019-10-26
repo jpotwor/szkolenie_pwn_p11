@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
 
@@ -27,11 +27,9 @@ print(len(x_train))
 print(len(x_train.columns))
 
 svc_params = {
-    'kernel': ['rbf'],
-    'gamma': [1e-3, 1e-4],
-    'C': [1, 10, 100, 1000]
+    'C': [0.1, 0.5, 1, 2]
 }
-clf = GridSearchCV(SVC(), svc_params, cv=5, verbose=3)
+clf = GridSearchCV(LinearSVC(), svc_params, cv=2, verbose=3, n_jobs=-1)
 
 clf.fit(x_train, y_train)
 print(clf.best_params_)
